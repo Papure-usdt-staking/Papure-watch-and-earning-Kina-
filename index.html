@@ -17,11 +17,19 @@
     <link rel="stylesheet" href="style.css" />
 
     <style>
-        /* quick inline for flag emoji */
         .flag-png {
             font-size: 1.3rem;
             line-height: 1;
             filter: drop-shadow(0 0 6px rgba(252, 209, 22, 0.3));
+        }
+        /* quick fix for PIN input */
+        .pin-input {
+            letter-spacing: 0.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .pin-input::placeholder {
+            letter-spacing: 0.1rem;
         }
     </style>
 </head>
@@ -39,7 +47,6 @@
                 <div class="absolute left-1/2 top-[45%] h-40 w-[130vw] -translate-x-1/2 rounded-[100%] bg-[#CE1126]/30 blur-3xl"></div>
                 <div class="absolute right-[5%] top-[8%] h-56 w-56 rounded-full bg-[#FCD116]/15 blur-3xl"></div>
                 <div class="absolute left-[10%] bottom-[10%] h-40 w-40 rounded-full bg-[#CE1126]/10 blur-3xl"></div>
-                <!-- floating gold particles -->
                 <div class="absolute top-[20%] left-[15%] w-2 h-2 bg-[#FCD116] rounded-full blur-[2px] opacity-60 animate-pulse"></div>
                 <div class="absolute top-[60%] right-[20%] w-3 h-3 bg-[#FCD116] rounded-full blur-[3px] opacity-40 animate-pulse delay-700"></div>
                 <div class="absolute bottom-[30%] left-[25%] w-1.5 h-1.5 bg-[#FCD116] rounded-full blur-[2px] opacity-50 animate-pulse delay-300"></div>
@@ -90,7 +97,7 @@
                                 </span>
                             </div>
 
-                            <!-- Stats – colorful cards -->
+                            <!-- Stats – colorful cards (replicated from VideoEarn) -->
                             <div class="mb-5 grid max-w-md grid-cols-3 gap-2">
                                 <div class="rounded-[1.3rem] border border-[#FCD116]/30 bg-gradient-to-br from-[#CE1126]/20 to-[#FCD116]/10 p-3 shadow-[0_12px_40px_rgba(206,17,38,0.2)] backdrop-blur-xl ring-1 ring-[#FCD116]/10">
                                     <p class="text-[10px] font-black uppercase tracking-wide text-[#FCD116]/80">Per minute</p>
@@ -105,7 +112,7 @@
                                 </div>
                                 <div class="rounded-[1.3rem] border border-[#CE1126]/30 bg-gradient-to-br from-[#CE1126]/15 to-[#FCD116]/5 p-3 shadow-[0_12px_40px_rgba(206,17,38,0.15)] backdrop-blur-xl ring-1 ring-[#CE1126]/10">
                                     <p class="text-[10px] font-black uppercase tracking-wide text-[#FCD116]/70">Proof feed</p>
-                                    <p class="mt-1 text-lg font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]">5</p>
+                                    <p class="mt-1 text-lg font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" id="proofCount">5</p>
                                 </div>
                             </div>
 
@@ -124,7 +131,7 @@
                                 <span>Thousands cashing out · your timer starts the second you tap play</span>
                             </p>
 
-                            <!-- Step Card – colorful -->
+                            <!-- Step Card – replicated from VideoEarn with PNG colors -->
                             <div class="relative mt-6 overflow-hidden rounded-[2rem] border border-[#FCD116]/20 bg-gradient-to-br from-[#1a0a0a]/95 via-[#141414]/90 to-[#0a0a0a]/95 p-4 shadow-[0_22px_70px_rgba(206,17,38,0.2)] backdrop-blur-2xl ring-1 ring-[#FCD116]/10">
                                 <div class="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-[#CE1126]/30 blur-3xl"></div>
                                 <div class="pointer-events-none absolute -bottom-10 left-8 h-28 w-40 rounded-full bg-[#FCD116]/20 blur-3xl"></div>
@@ -168,7 +175,7 @@
                         </div>
                     </section>
 
-                    <!-- RIGHT COLUMN – colorful proof panel -->
+                    <!-- RIGHT COLUMN – proof panel replicated from VideoEarn -->
                     <section class="relative">
                         <div class="absolute -left-4 top-4 hidden h-20 w-20 rounded-[1.8rem] bg-gradient-to-br from-[#FCD116] to-[#ffdd44] shadow-[0_22px_50px_rgba(252,209,22,0.25)] lg:flex lg:rotate-[-10deg] lg:items-center lg:justify-center ring-2 ring-[#CE1126]/30">
                             <i class="fas fa-play ml-1 text-3xl text-[#0a0a0a]"></i>
@@ -188,15 +195,11 @@
                                     <i class="fas fa-shield-alt"></i>
                                 </div>
                             </div>
-                            <div class="relative flex min-h-[360px] items-center justify-center rounded-[1.75rem] bg-gradient-to-br from-[#CE1126]/10 via-[#FCD116]/5 to-transparent p-6 text-center ring-1 ring-[#FCD116]/10 backdrop-blur-sm">
-                                <div>
-                                    <i class="fas fa-clock mx-auto mb-4 text-4xl text-[#FCD116]/40 drop-shadow-[0_0_30px_rgba(252,209,22,0.1)]"></i>
-                                    <p class="text-base font-black text-white/50">Withdrawal proof is syncing</p>
-                                    <div class="mt-3 flex justify-center gap-1">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-[#FCD116] animate-pulse shadow-[0_0_12px_rgba(252,209,22,0.4)]"></span>
-                                        <span class="h-1.5 w-1.5 rounded-full bg-[#FCD116] animate-pulse delay-150 shadow-[0_0_12px_rgba(252,209,22,0.4)]"></span>
-                                        <span class="h-1.5 w-1.5 rounded-full bg-[#FCD116] animate-pulse delay-300 shadow-[0_0_12px_rgba(252,209,22,0.4)]"></span>
-                                    </div>
+                            <!-- Dynamic proof feed (recent withdrawals) -->
+                            <div class="relative flex min-h-[200px] flex-col items-center justify-start rounded-[1.75rem] bg-gradient-to-br from-[#CE1126]/10 via-[#FCD116]/5 to-transparent p-4 text-center ring-1 ring-[#FCD116]/10 backdrop-blur-sm max-h-[280px] overflow-y-auto proof-feed-scroll">
+                                <div id="proofFeedList" class="w-full space-y-2">
+                                    <!-- populated by JS -->
+                                    <div class="text-white/30 text-sm py-8">Loading proof feed...</div>
                                 </div>
                             </div>
                             <div class="relative mt-4 rounded-[1.6rem] bg-gradient-to-br from-[#CE1126]/20 via-[#0a0a0a] to-[#0a0a0a] p-4 text-white border border-[#FCD116]/20 shadow-[0_8px_30px_rgba(206,17,38,0.1)]">
@@ -224,7 +227,7 @@
     </div>
 
     <!-- ============================================================
-    WALLET OVERLAY – colorful
+    WALLET OVERLAY – enhanced with new features
     ============================================================ -->
     <div class="wallet-overlay" id="walletOverlay">
         <div class="wallet-modal" id="walletModal">
@@ -232,7 +235,7 @@
             <div class="withdraw-success-overlay" id="withdrawSuccessOverlay">
                 <div class="checkmark"><i class="fas fa-check-circle"></i></div>
                 <h3>Withdrawal Submitted!</h3>
-                <p>Your Kina are on the way to your bank account.</p>
+                <p id="successMessage">Your Kina are on the way to your bank account.</p>
                 <button class="btn-secondary mt-2" style="width:auto;padding:0.6rem 2rem;" id="successOkBtn">Done</button>
             </div>
 
@@ -242,7 +245,7 @@
                 <button class="close-btn" id="closeWalletBtn"><i class="fas fa-times"></i></button>
             </div>
 
-            <!-- Balance Card – colorful -->
+            <!-- Balance Card -->
             <div class="balance-card">
                 <div class="label">Available Balance</div>
                 <div class="amount">
@@ -252,17 +255,20 @@
                 <div class="sub">
                     <span>Earned today: <strong id="todayEarnings">K0.00</strong></span>
                     <span>Total earned: <strong id="totalEarnings">K0.00</strong></span>
+                    <span>Daily limit: <strong id="dailyLimitDisplay">K100.00</strong></span>
+                    <span>Today's withdrawals: <strong id="todayWithdrawn">K0.00</strong></span>
                 </div>
             </div>
 
-            <!-- Tabs -->
+            <!-- Tabs – added "Settings" -->
             <div class="wallet-tabs">
                 <button class="tab-btn active" data-tab="withdraw"><i class="fas fa-arrow-up-right-from-square"></i>Withdraw</button>
                 <button class="tab-btn" data-tab="history"><i class="fas fa-clock-rotate-left"></i>History</button>
                 <button class="tab-btn" data-tab="banks"><i class="fas fa-building-columns"></i>Banks</button>
+                <button class="tab-btn" data-tab="settings"><i class="fas fa-gear"></i>Settings</button>
             </div>
 
-            <!-- TAB: Withdraw -->
+            <!-- TAB: Withdraw (now includes PIN and fee info) -->
             <div class="tab-content active" id="tabWithdraw">
                 <form class="withdraw-form" id="withdrawForm" novalidate>
                     <div class="form-group">
@@ -287,7 +293,17 @@
                     <div class="form-group">
                         <label>Amount to Withdraw (K)</label>
                         <input type="number" id="withdrawAmount" placeholder="0.00" min="1" step="0.01" required />
-                        <p class="text-muted" style="font-size:0.7rem;margin-top:0.2rem;">Min withdrawal: <strong>K1.00</strong> · Max: <strong id="maxWithdrawLabel">K0.00</strong></p>
+                        <p class="text-muted" style="font-size:0.7rem;margin-top:0.2rem;">
+                            Min: <strong>K1.00</strong> · Max: <strong id="maxWithdrawLabel">K0.00</strong>
+                            <span id="feeDisplay" class="ml-2">Fee: <strong>K0.00</strong></span>
+                        </p>
+                    </div>
+
+                    <!-- Transaction PIN -->
+                    <div class="form-group">
+                        <label>Transaction PIN (4 digits)</label>
+                        <input type="password" id="transactionPin" class="pin-input" maxlength="4" placeholder="••••" required pattern="\d{4}" inputmode="numeric" />
+                        <p class="text-muted" style="font-size:0.7rem;margin-top:0.2rem;">Enter your 4‑digit PIN. <span id="pinHint" class="text-[#FCD116]">Default: 1234</span></p>
                     </div>
 
                     <button type="submit" class="btn-primary" id="withdrawSubmitBtn">
@@ -297,12 +313,12 @@
                 </form>
             </div>
 
-            <!-- TAB: History -->
+            <!-- TAB: History (unchanged) -->
             <div class="tab-content" id="tabHistory">
                 <div class="history-list" id="historyList"></div>
             </div>
 
-            <!-- TAB: Banks -->
+            <!-- TAB: Banks (unchanged) -->
             <div class="tab-content" id="tabBanks">
                 <div class="saved-banks-list" id="savedBanksList"></div>
                 <button class="btn-secondary mt-2" id="addBankBtn">
@@ -338,6 +354,35 @@
                             </button>
                             <button class="btn-secondary" id="bankFormCancelBtn" style="flex:0.4;padding:0.6rem 1rem;font-size:0.85rem;">Cancel</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: Settings (new) -->
+            <div class="tab-content" id="tabSettings">
+                <div class="settings-section">
+                    <h3 class="text-lg font-bold text-[#FCD116] mb-2">Transaction PIN</h3>
+                    <div class="form-group">
+                        <label>Current PIN</label>
+                        <input type="password" id="currentPin" class="pin-input" maxlength="4" placeholder="••••" />
+                    </div>
+                    <div class="form-group">
+                        <label>New PIN</label>
+                        <input type="password" id="newPin" class="pin-input" maxlength="4" placeholder="••••" />
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New PIN</label>
+                        <input type="password" id="confirmPin" class="pin-input" maxlength="4" placeholder="••••" />
+                    </div>
+                    <button class="btn-secondary" id="changePinBtn">Change PIN</button>
+
+                    <hr class="my-4 border-[#FCD116]/20" />
+
+                    <h3 class="text-lg font-bold text-[#FCD116] mb-2">Daily Withdrawal Limit</h3>
+                    <div class="form-group">
+                        <label>Limit (K)</label>
+                        <input type="number" id="dailyLimitInput" step="5" min="10" value="100" />
+                        <button class="btn-secondary mt-1" id="updateLimitBtn">Update Limit</button>
                     </div>
                 </div>
             </div>
